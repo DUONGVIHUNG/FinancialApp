@@ -1,11 +1,18 @@
 package com.app.financialmanagement.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 import lombok.Data;
-import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -41,21 +48,21 @@ public class FutureTicket implements Serializable {
     private LocalDate ticketCompletionDate;
 
     @Column(name="created_at",nullable = false)
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name="updated_at",nullable = false)
-    private LocalDate updatedAt;
+    private LocalDateTime updatedAt;
 
     @PrePersist
     void onCreate(){
         this.id = UUID.randomUUID();
-        this.createdAt=LocalDate.now();
-        this.updatedAt=LocalDate.now();
+        this.createdAt=LocalDateTime.now();
+        this.updatedAt=LocalDateTime.now();
     }
 
     @PreUpdate
     void onUpdate(){
-        this.updatedAt=LocalDate.now();
+        this.updatedAt=LocalDateTime.now();
     }
 
 }
