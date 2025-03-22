@@ -1,8 +1,21 @@
 package com.app.financialmanagement.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.JoinColumn;
+
+import lombok.EqualsAndHashCode.Exclude;
 import lombok.Data;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -26,6 +39,12 @@ public class NoteTagMapping implements Serializable {
 
     @Column(name = "created_at",nullable = false)
     private LocalDateTime createdAt;
+
+    @Hidden
+    @Exclude
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @JoinColumn(name = "tag_id",nullable = true,updatable = false,insertable = false)
+    private Tag tag;
 
     @PrePersist
     void onCreate(){

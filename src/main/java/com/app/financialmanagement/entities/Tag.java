@@ -42,6 +42,12 @@ public class Tag implements Serializable {
     @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY)
     private Set<TicketTagMapping> ticketTagMappings;
 
+    @Hidden
+    @Exclude
+    @JsonIgnore
+    @OneToMany(mappedBy = "tag", fetch = FetchType.LAZY)
+    private Set<NoteTagMapping> noteTagMappings;
+
     @PrePersist
     void onCreate(){
         this.createdAt = LocalDateTime.now();
