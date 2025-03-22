@@ -8,7 +8,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Table;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.FetchType;
+
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.Data;
+import lombok.EqualsAndHashCode.Exclude;
+
 
 
 import java.io.Serializable;
@@ -37,6 +44,12 @@ public class TicketTagMapping implements Serializable {
 
     @Column(name = "created_at",nullable = false)
     private LocalDateTime createdAt;
+
+    @Exclude
+    @Hidden
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @JoinColumn(name = "tag_id",nullable = true,insertable = false,updatable = false)
+    private Tag tag;
 
     @PrePersist
     void onCreate(){
