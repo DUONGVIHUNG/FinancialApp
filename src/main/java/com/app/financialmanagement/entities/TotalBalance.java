@@ -1,5 +1,6 @@
 package com.app.financialmanagement.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -8,10 +9,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
-import lombok.Data;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.FetchType;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode.Exclude;
+
+import io.swagger.v3.oas.annotations.Hidden;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -33,6 +40,12 @@ public class TotalBalance implements Serializable {
 
     @Column(name = "updated_at",nullable = false)
     private LocalDateTime updatedAt;
+
+    @Exclude
+    @Hidden
+    @JsonIgnore
+    @OneToMany(mappedBy = "totalBalance",fetch = FetchType.LAZY)
+    private List<BalanceMode> balanceModes;
 
     @PrePersist
     void onCreate(){

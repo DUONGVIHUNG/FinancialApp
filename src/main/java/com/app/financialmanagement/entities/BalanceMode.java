@@ -8,8 +8,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.FetchType;
+
+import lombok.EqualsAndHashCode.Exclude;
 import lombok.Data;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -45,6 +51,12 @@ public class BalanceMode implements Serializable {
 
     @Column(name = "updated_at",nullable = false)
     private LocalDateTime updatedAt;
+
+    @Exclude
+    @Hidden
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @JoinColumn(name = "total_balance_id",nullable = true,updatable = false,insertable = false)
+    private TotalBalance totalBalance;
 
     @PrePersist
     void onCreate(){
