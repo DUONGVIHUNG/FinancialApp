@@ -8,8 +8,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.FetchType;
+
+import lombok.EqualsAndHashCode.Exclude;
 import lombok.Data;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -52,6 +58,12 @@ public class CompletedTicket implements Serializable {
 
     @Column(name="updated_at",nullable = false)
     private LocalDateTime updatedAt;
+
+    @Hidden
+    @Exclude
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "balance_mode_id", nullable = true,updatable = false,insertable = false)
+    private BalanceMode balanceMode;
 
     @PrePersist
     void onCreate(){

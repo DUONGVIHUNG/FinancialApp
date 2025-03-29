@@ -67,6 +67,12 @@ public class BalanceMode implements Serializable {
     @OneToMany(mappedBy = "balanceMode", fetch = FetchType.LAZY)
     private Set<FutureTicket> futureTickets;
 
+    @Exclude
+    @Hidden
+    @JsonIgnore
+    @OneToMany(mappedBy = "balanceMode", fetch = FetchType.LAZY)
+    private Set<CompletedTicket> completedTickets;
+
     @PrePersist
     void onCreate(){
         this.id = UUID.randomUUID();
