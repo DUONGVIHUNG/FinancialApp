@@ -46,6 +46,12 @@ public class NoteTagMapping implements Serializable {
     @JoinColumn(name = "tag_id",nullable = true,updatable = false,insertable = false)
     private Tag tag;
 
+    @Hidden
+    @Exclude
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @JoinColumn(name="note_id",nullable = true,updatable = false,insertable = false)
+    private Note note;
+
     @PrePersist
     void onCreate(){
         this.createdAt=LocalDateTime.now();
