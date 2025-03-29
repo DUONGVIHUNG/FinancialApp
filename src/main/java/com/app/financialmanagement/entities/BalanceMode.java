@@ -1,5 +1,6 @@
 package com.app.financialmanagement.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.FetchType;
 
@@ -18,6 +20,7 @@ import lombok.Data;
 import io.swagger.v3.oas.annotations.Hidden;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -57,6 +60,12 @@ public class BalanceMode implements Serializable {
     @ManyToOne(optional = false,fetch = FetchType.LAZY)
     @JoinColumn(name = "total_balance_id",nullable = true,updatable = false,insertable = false)
     private TotalBalance totalBalance;
+
+    @Exclude
+    @Hidden
+    @JsonIgnore
+    @OneToMany(mappedBy = "balanceMode", fetch = FetchType.LAZY)
+    private Set<FutureTicket> futureTickets;
 
     @PrePersist
     void onCreate(){
